@@ -111,10 +111,10 @@ AI_API_KEY=your_key
 
 | Name | Role |
 |---|---|
-| [Your Name] | Backend Development (Java/Spring Boot, DBMS) |
-| [Teammate] | Frontend Development |
-| [Teammate] | UI/UX Design |
-| [Teammate] | AI Integration |
+| Abhas Paul | Backend Development (Java/Spring Boot, DBMS) |
+| Yugal Gupta | Frontend Development |
+| Ankiit Singhal | UI/UX Design |
+| Devesh Sharma | AI Integration |
 
 ---
 
