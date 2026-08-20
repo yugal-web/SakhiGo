@@ -113,7 +113,7 @@ AI_API_KEY=your_key
 |---|---|
 | Abhas Paul | Backend Development (Java/Spring Boot, DBMS) |
 | Yugal Gupta | Frontend Development |
-| Ankiit Singhal | UI/UX Design |
+| Ankit Singhal | UI/UX Design |
 | Devesh Sharma | AI Integration |
 
 ---
