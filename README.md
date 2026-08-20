@@ -136,7 +136,7 @@ Women's safety concerns while commuting are a widespread and persistent issue, a
 
 ## 📄 License
 
-This project was built for [Hackathon Name] 2026. Licensed under the [MIT License](LICENSE).
+This project was built for Code Build 1.0 2026. Licensed under the.
 
 ---
 
