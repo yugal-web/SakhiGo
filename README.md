@@ -4,7 +4,7 @@
 
 SakhiGo is a mobile-first Progressive Web App (PWA) built to help women feel safer while commuting, traveling alone, or navigating unfamiliar areas — with instant SOS alerts, live location sharing, crowdsourced safety data, and an AI-powered safety assistant.
 
-Built at [Hackathon Name] under the **Women Safety & Social Impact** theme.
+Built at Code Build 1.0 2026 under the **Women Safety & Social Impact** theme.
 
 ---
 
