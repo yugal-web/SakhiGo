@@ -22,7 +22,6 @@ Millions of women deal with the quiet anxiety of commuting alone — late from w
 |---|---|
 | 🆘 **One-Tap SOS** | Instantly alerts pre-saved emergency contacts with live location via SMS/WhatsApp |
 | 📍 **Live Location Sharing** | Trusted contacts can track your location in real-time for a set duration |
-| 📞 **Fake Call Trigger** | Simulates an incoming call to help exit uncomfortable situations discreetly |
 | 🗺️ **Safety Heatmap** | Crowdsourced reporting of unsafe zones, visualized on an interactive map |
 | 🤖 **AI Safety Assistant** | Instant guidance — nearest police station, helpline numbers, calming instructions |
 | 📱 **Installable PWA** | Works like a native app — no app store required, installs to home screen |
