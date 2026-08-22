@@ -1,360 +1,935 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SakhiGo — Your Safety Companion</title>
-<meta name="description" content="SakhiGo alerts your trusted people and the police in seconds. Live location sharing, one-tap SOS, and verified safe routes — built for women, everywhere." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<body>
+    <title>SakhiGo — Your Safety Companion</title>
 
-<header class="site-nav">
-  <div class="wrap nav-row">
-    <a href="#top" class="wordmark display" style="text-decoration:none;">Sakhi<span class="go">Go</span></a>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how">How it works</a></li>
-        <li><a href="#helplines">Helplines</a></li>
-        <li><a href="#stories">Stories</a></li>
-      </ul>
-    </nav>
-  
-  </div>
-</header>
+    <meta
+      name="description"
+      content="SakhiGo alerts your trusted people and the police in seconds. Live location sharing, one-tap SOS, and verified safe routes — built for women, everywhere."
+    />
 
-<main id="top">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- ================= HERO ================= -->
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow">Personal safety, always on</div>
-        <h1 class="hero-title">Help should never be <em>more than a hold away.</em></h1>
-        <p class="hero-sub">SakhiGo puts your trusted circle and the nearest police control room one tap from your fingertip — with live location, verified safe routes, and helplines built in.</p>
-        <div class="hero-ctas">
-          <a href="#download" class="btn-primary">
-            Get SakhiGo — it's free
-          </a>
-          <a href="#how" class="btn-ghost">
-            See how it works
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <div class="status-pill"><span class="dot"></span>42,000+ guardians actively watching right now</div>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="site-nav">
+      <div class="wrap nav-row">
+        <a href="#top" class="wordmark display">
+          Sakhi<span class="go">Go</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+          <ul class="nav-links">
+            <li>
+              <a href="#features">Features</a>
+            </li>
+
+            <li>
+              <a href="#how">How it works</a>
+            </li>
+
+            <li>
+              <a href="#helplines">Helplines</a>
+            </li>
+
+            <li>
+              <a href="#stories">Stories</a>
+            </li>
+          </ul>
+        </nav>
       </div>
+    </header>
 
-      <div class="sos-demo">
-        <div class="sos-ring-wrap">
-          <div class="ring r1"></div>
-          <div class="ring r2"></div>
-          <div class="ring r3"></div>
-          <svg class="hold-progress" viewBox="0 0 196 196" width="216" height="216">
-            <circle class="bg" cx="98" cy="98" r="92"></circle>
-            <circle class="fg" id="progressCircle" cx="98" cy="98" r="92"></circle>
-          </svg>
-          <button id="sosBtn" aria-label="Try the SOS hold demo">
-            <span class="big">SOS</span>
-            <span class="small" id="sosLabel">Hold 2s</span>
-          </button>
-          <span class="sos-demo-tag">try it →</span>
-        </div>
-        <p class="sos-caption" id="sosCaption">This is a live demo. Press &amp; hold — in the real app, this alerts your guardians and police instantly.</p>
-      </div>
-    </div>
-  </section>
+    <main id="top">
+      <!-- ================= HERO ================= -->
 
-  <!-- ================= STATS ================= -->
-  <div class="stats-bar">
-    <div class="wrap stats-grid">
-      <div class="stat"><h3>2.1s</h3><p>Avg. alert dispatch time</p></div>
-      <div class="stat"><h3>42k+</h3><p>Active guardians</p></div>
-      <div class="stat"><h3>180+</h3><p>Cities covered</p></div>
-      <div class="stat"><h3>24/7</h3><p>Helpline &amp; police link</p></div>
-    </div>
-  </div>
-
-  <!-- ================= FEATURES ================= -->
-  <section class="block" id="features">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow" style="margin-bottom:12px;">What's inside</div>
-        <h2 class="section-title">Four tools, one purpose — getting you home safe.</h2>
-        <p class="section-sub">Everything is built to work in seconds, with shaking hands, in bad signal, in the worst moment. No menus to dig through.</p>
-      </div>
-
-      <div class="feat-grid">
-        <div class="feat-card feat-sos">
-          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a2 2 0 001.7 3h15.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div>
-          <h4>Emergency SOS</h4>
-          <p>Hold for two seconds to alert your guardians and the nearest police control room, with your live location attached.</p>
-        </div>
-        <div class="feat-card feat-loc">
-          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-7.58 7-13a7 7 0 10-14 0c0 5.42 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-          <h4>Live location sharing</h4>
-          <p>Turn on real-time tracking and an SMS with your link goes straight to family — no app required on their end.</p>
-        </div>
-        <div class="feat-card feat-area">
-          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
-          <h4>Safe public areas</h4>
-          <p>See well-lit, crowded, staffed spots nearby — police stations, 24×7 stores, hospitals — to route through or head to.</p>
-        </div>
-        <div class="feat-card feat-help">
-          <div class="feat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.33 1.79.63 2.65a2 2 0 01-.45 2.11L8.09 9.68a16 16 0 006.23 6.23l1.2-1.2a2 2 0 012.11-.45c.86.3 1.75.51 2.65.63A2 2 0 0122 16.92z"/></svg></div>
-          <h4>One-tap helplines</h4>
-          <p>Police, women's helpline, distress line, and ambulance — verified numbers, dialled with a single tap.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= HOW IT WORKS ================= -->
-  <section class="block" id="how">
-    <div class="wrap how-wrap">
-      <div>
-        <div class="eyebrow" style="margin-bottom:12px;">Setup takes under 3 minutes</div>
-        <h2 class="section-title" style="margin-bottom:30px;">From download to protected.</h2>
-
-        <div class="step">
-          <div class="step-num mono">01</div>
+      <section class="hero">
+        <div class="wrap hero-grid">
           <div>
-            <h4>Build your trusted circle</h4>
-            <p>Add family or friends as guardians. They don't need the app — just a phone number that can receive SMS.</p>
+            <div class="eyebrow">Personal safety, always on</div>
+
+            <h1 class="hero-title">
+              Help should never be
+              <em>more than a hold away.</em>
+            </h1>
+
+            <p class="hero-sub">
+              SakhiGo puts your trusted circle and the nearest police control
+              room one tap from your fingertip — with live location, verified
+              safe routes, and helplines built in.
+            </p>
+
+            <div class="hero-ctas">
+              <a href="#download" class="btn-primary">
+                Get SakhiGo — it's free
+              </a>
+
+              <a href="#how" class="btn-ghost">
+                See how it works
+
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+            </div>
+
+            <div class="status-pill">
+              <span class="dot"></span>
+
+              42,000+ guardians actively watching right now
+            </div>
+          </div>
+
+          <!-- SOS -->
+
+          <div class="sos-demo">
+            <div class="sos-ring-wrap">
+              <div class="ring r1"></div>
+              <div class="ring r2"></div>
+              <div class="ring r3"></div>
+
+              <svg
+                class="hold-progress"
+                viewBox="0 0 196 196"
+                width="216"
+                height="216"
+              >
+                <circle class="bg" cx="98" cy="98" r="92"></circle>
+
+                <circle
+                  class="fg"
+                  id="progressCircle"
+                  cx="98"
+                  cy="98"
+                  r="92"
+                ></circle>
+              </svg>
+
+              <button id="sosBtn" aria-label="Try the SOS hold demo">
+                <span class="big">SOS</span>
+
+                <span class="small" id="sosLabel"> Hold 2s </span>
+              </button>
+
+              <span class="sos-demo-tag"> try it → </span>
+            </div>
+
+            <p class="sos-caption" id="sosCaption">
+              This is a live demo. Press &amp; hold — in the real app, this
+              alerts your guardians and police instantly.
+            </p>
           </div>
         </div>
-        <div class="step">
-          <div class="step-num mono">02</div>
+      </section>
+
+      <!-- ================= STATS ================= -->
+
+      <div class="stats-bar">
+        <div class="wrap stats-grid">
+          <div class="stat">
+            <h3>2.1s</h3>
+            <p>Avg. alert dispatch time</p>
+          </div>
+
+          <div class="stat">
+            <h3>42k+</h3>
+            <p>Active guardians</p>
+          </div>
+
+          <div class="stat">
+            <h3>180+</h3>
+            <p>Cities covered</p>
+          </div>
+
+          <div class="stat">
+            <h3>24/7</h3>
+            <p>Helpline &amp; police link</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= FEATURES ================= -->
+
+      <section class="block" id="features">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="eyebrow" style="margin-bottom: 12px">What's inside</div>
+
+            <h2 class="section-title">
+              Four tools, one purpose — getting you home safe.
+            </h2>
+
+            <p class="section-sub">
+              Everything is built to work in seconds, with shaking hands, in bad
+              signal, in the worst moment. No menus to dig through.
+            </p>
+          </div>
+
+          <div class="feat-grid">
+            <!-- SOS -->
+
+            <div class="feat-card feat-sos">
+              <div class="feat-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a2 2 0 001.7 3h15.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"
+                  />
+                </svg>
+              </div>
+
+              <h4>Emergency SOS</h4>
+
+              <p>
+                Hold for two seconds to alert your guardians and the nearest
+                police control room, with your live location attached.
+              </p>
+            </div>
+
+            <!-- LIVE LOCATION -->
+
+            <div class="feat-card feat-loc">
+              <div class="feat-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 22s7-7.58 7-13a7 7 0 10-14 0c0 5.42 7 13 7 13z"
+                  />
+
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
+              </div>
+
+              <h4>Live location sharing</h4>
+
+              <p>
+                Turn on real-time tracking and an SMS with your link goes
+                straight to family — no app required on their end.
+              </p>
+            </div>
+
+            <!-- CURRENT LOCATION -->
+
+            <div class="feat-card feat-location">
+              <div class="feat-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 22s7-7.58 7-13a7 7 0 10-14 0c0 5.42 7 13 7 13z"
+                  />
+
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
+              </div>
+
+              <h4>Share my location</h4>
+
+              <p>
+                Get your current location and quickly share it with family,
+                friends, or emergency contacts.
+              </p>
+
+              <button id="locationBtn" class="location-btn">
+                Get Current Location
+              </button>
+
+              <div id="locationResult" class="location-result">
+                <span id="locationStatus">
+                  Your location has not been detected yet.
+                </span>
+
+                <a
+                  id="mapLink"
+                  href="#"
+                  target="_blank"
+                  rel="noopener"
+                  class="map-link"
+                >
+                  View on Map
+                </a>
+
+                <button id="shareLocationBtn" class="share-location-btn">
+                  Share Location
+                </button>
+
+                <a
+                  id="whatsappBtn"
+                  href="#"
+                  target="_blank"
+                  rel="noopener"
+                  class="whatsapp-btn"
+                >
+                  Share on WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <!-- SAFE AREAS -->
+
+            <div class="feat-card feat-area">
+              <div class="feat-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9" />
+
+                  <path d="M12 3v18M3 12h18" />
+                </svg>
+              </div>
+
+              <h4>Safe public areas</h4>
+
+              <p>
+                See well-lit, crowded, staffed spots nearby — police stations,
+                24×7 stores, hospitals — to route through or head to.
+              </p>
+            </div>
+
+            <!-- HELPLINES -->
+
+            <div class="feat-card feat-help">
+              <div class="feat-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.33 1.79.63 2.65a2 2 0 01-.45 2.11L8.09 9.68a16 16 0 006.23 6.23l1.2-1.2a2 2 0 012.11-.45c.86.3 1.75.51 2.65.63A2 2 0 0122 16.92z"
+                  />
+                </svg>
+              </div>
+
+              <h4>One-tap helplines</h4>
+
+              <p>
+                Police, women's helpline, distress line, and ambulance —
+                verified numbers, dialled with a single tap.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= HOW IT WORKS ================= -->
+
+      <section class="block" id="how">
+        <div class="wrap how-wrap">
           <div>
-            <h4>Turn on Guardian Mode</h4>
-            <p>One switch keeps your circle quietly in the loop — no tracking noise, just there when you need them.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num mono">03</div>
-          <div>
-            <h4>You're covered, everywhere</h4>
-            <p>Hold the SOS button in any moment that feels wrong. Location, alert, and police link go out instantly.</p>
-          </div>
-        </div>
-      </div>
+            <div class="eyebrow" style="margin-bottom: 12px">
+              Setup takes under 3 minutes
+            </div>
 
-      <div class="phone-preview">
-        <div class="pp-row">
-          <div class="pp-shield">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
-          </div>
-          <div>
-            <h5>Your Trusted Circle is watching</h5>
-            <p class="pp-sub">3 guardians · live location on</p>
-          </div>
-        </div>
-        <div class="pp-chip-row">
-          <div class="pp-chip"><div class="pp-avatar" style="background:rgba(255,169,69,0.16); color:var(--saffron); border-color:rgba(255,169,69,0.4);">M</div>Mom</div>
-          <div class="pp-chip"><div class="pp-avatar" style="background:rgba(51,217,178,0.16); color:var(--teal); border-color:rgba(51,217,178,0.4);">P</div>Papa</div>
-          <div class="pp-chip"><div class="pp-avatar" style="background:rgba(180,155,255,0.16); color:var(--violet); border-color:rgba(180,155,255,0.4);">R</div>Riya</div>
-          <div class="pp-chip"><div class="pp-avatar" style="background:rgba(255,77,109,0.16); color:var(--rose); border-color:rgba(255,77,109,0.4);">+</div>Add</div>
-        </div>
-        <div class="pp-activity">
-          <div class="pp-activity-item">
-            <span class="pp-dot" style="background:var(--teal);"></span>
-            <div>Live location shared with Mom &amp; Papa<time>TODAY · 18:42</time></div>
-          </div>
-          <div class="pp-activity-item">
-            <span class="pp-dot" style="background:var(--saffron);"></span>
-            <div>Safe-area route suggested near Cyber Hub<time>TODAY · 17:10</time></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            <h2 class="section-title" style="margin-bottom: 30px">
+              From download to protected.
+            </h2>
 
-  <!-- ================= HELPLINES ================= -->
-  <section class="block" id="helplines">
-    <div class="wrap">
-      <div class="help-strip">
-        <div class="help-strip-head">
-          <div>
-            <div class="eyebrow" style="margin-bottom:10px;">Always reachable</div>
-            <h2 class="section-title" style="margin:0;">Official helplines, one tap away.</h2>
+            <div class="step">
+              <div class="step-num mono">01</div>
+
+              <div>
+                <h4>Build your trusted circle</h4>
+
+                <p>
+                  Add family or friends as guardians. They don't need the app —
+                  just a phone number that can receive SMS.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num mono">02</div>
+
+              <div>
+                <h4>Turn on Guardian Mode</h4>
+
+                <p>
+                  One switch keeps your circle quietly in the loop — no tracking
+                  noise, just there when you need them.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-num mono">03</div>
+
+              <div>
+                <h4>You're covered, everywhere</h4>
+
+                <p>
+                  Hold the SOS button in any moment that feels wrong. Location,
+                  alert, and police link go out instantly.
+                </p>
+              </div>
+            </div>
           </div>
-          <p class="section-sub" style="max-width:340px;">Available in the app even without a guardian set up — anyone can reach these instantly.</p>
+
+          <div class="phone-preview">
+            <div class="pp-row">
+              <div class="pp-shield">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
+
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+              </div>
+
+              <div>
+                <h5>Your Trusted Circle is watching</h5>
+
+                <p class="pp-sub">3 guardians · live location on</p>
+              </div>
+            </div>
+
+            <div class="pp-chip-row">
+              <div class="pp-chip">
+                <div
+                  class="pp-avatar"
+                  style="
+                    background: rgba(255, 169, 69, 0.16);
+                    color: var(--saffron);
+                    border-color: rgba(255, 169, 69, 0.4);
+                  "
+                >
+                  M
+                </div>
+
+                Mom
+              </div>
+
+              <div class="pp-chip">
+                <div
+                  class="pp-avatar"
+                  style="
+                    background: rgba(51, 217, 178, 0.16);
+                    color: var(--teal);
+                    border-color: rgba(51, 217, 178, 0.4);
+                  "
+                >
+                  P
+                </div>
+
+                Papa
+              </div>
+
+              <div class="pp-chip">
+                <div
+                  class="pp-avatar"
+                  style="
+                    background: rgba(180, 155, 255, 0.16);
+                    color: var(--violet);
+                    border-color: rgba(180, 155, 255, 0.4);
+                  "
+                >
+                  R
+                </div>
+
+                Riya
+              </div>
+
+              <div class="pp-chip">
+                <div
+                  class="pp-avatar"
+                  style="
+                    background: rgba(255, 77, 109, 0.16);
+                    color: var(--rose);
+                    border-color: rgba(255, 77, 109, 0.4);
+                  "
+                >
+                  +
+                </div>
+
+                Add
+              </div>
+            </div>
+
+            <div class="pp-activity">
+              <div class="pp-activity-item">
+                <span class="pp-dot" style="background: var(--teal)"> </span>
+
+                <div>
+                  Live location shared with Mom &amp; Papa
+
+                  <time> TODAY · 18:42 </time>
+                </div>
+              </div>
+
+              <div class="pp-activity-item">
+                <span class="pp-dot" style="background: var(--saffron)"> </span>
+
+                <div>
+                  Safe-area route suggested near Cyber Hub
+
+                  <time> TODAY · 17:10 </time>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="help-grid">
-          <div class="help-card">
-            <div class="help-ic" style="background:rgba(255,77,109,0.15);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/></svg></div>
-            <div class="help-info"><h5>Police Emergency</h5><p>All-India control room</p><span class="help-num">100 / 112</span></div>
-          </div>
-          <div class="help-card">
-            <div class="help-ic" style="background:rgba(255,169,69,0.15);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--saffron)" stroke-width="1.8"><path d="M20.8 4.6c-1.6-1.6-4.2-1.6-5.8 0L12 7.6 9 4.6c-1.6-1.6-4.2-1.6-5.8 0-1.6 1.6-1.6 4.2 0 5.8L12 19l8.8-8.6c1.6-1.6 1.6-4.2 0-5.8z"/></svg></div>
-            <div class="help-info"><h5>Women's Helpline</h5><p>National commission</p><span class="help-num">1091</span></div>
-          </div>
-          <div class="help-card">
-            <div class="help-ic" style="background:rgba(180,155,255,0.15);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-            <div class="help-info"><h5>Women in Distress</h5><p>Domestic abuse line</p><span class="help-num">181</span></div>
-          </div>
-          <div class="help-card">
-            <div class="help-ic" style="background:rgba(51,217,178,0.15);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8"><path d="M12 21s-7.5-4.5-9.5-9C1 8 3 4 7 4c2 0 4 1.2 5 3 1-1.8 3-3 5-3 4 0 6 4 4.5 8-2 4.5-9.5 9-9.5 9z"/></svg></div>
-            <div class="help-info"><h5>Ambulance</h5><p>Medical emergency</p><span class="help-num">108</span></div>
+      </section>
+
+      <!-- ================= HELPLINES ================= -->
+
+      <section class="block" id="helplines">
+        <div class="wrap">
+          <div class="help-strip">
+            <div class="help-strip-head">
+              <div>
+                <div class="eyebrow" style="margin-bottom: 10px">
+                  Always reachable
+                </div>
+
+                <h2 class="section-title" style="margin: 0">
+                  Official helplines, one tap away.
+                </h2>
+              </div>
+
+              <p class="section-sub" style="max-width: 340px">
+                Available in the app even without a guardian set up — anyone can
+                reach these instantly.
+              </p>
+            </div>
+
+            <div class="help-grid">
+              <!-- POLICE -->
+
+              <div class="help-card">
+                <div
+                  class="help-ic"
+                  style="background: rgba(255, 77, 109, 0.15)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--rose)"
+                    stroke-width="1.8"
+                  >
+                    <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
+                  </svg>
+                </div>
+
+                <div class="help-info">
+                  <h5>Police Emergency</h5>
+
+                  <p>All-India control room</p>
+
+                  <span class="help-number-group">
+                    <a href="tel:100" class="help-num"> 100 </a>
+
+                    <span class="help-divider"> / </span>
+
+                    <a href="tel:112" class="help-num"> 112 </a>
+                  </span>
+                </div>
+              </div>
+
+              <!-- WOMEN'S HELPLINE -->
+
+              <div class="help-card">
+                <div
+                  class="help-ic"
+                  style="background: rgba(255, 169, 69, 0.15)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--saffron)"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      d="M20.8 4.6c-1.6-1.6-4.2-1.6-5.8 0L12 7.6 9 4.6c-1.6-1.6-4.2-1.6-5.8 0-1.6 1.6-1.6 4.2 0 5.8L12 19l8.8-8.6c1.6-1.6 1.6-4.2 0-5.8z"
+                    />
+                  </svg>
+                </div>
+
+                <div class="help-info">
+                  <h5>Women's Helpline</h5>
+
+                  <p>National commission</p>
+
+                  <a href="tel:1091" class="help-num"> 1091 </a>
+                </div>
+              </div>
+
+              <!-- WOMEN IN DISTRESS -->
+
+              <div class="help-card">
+                <div
+                  class="help-ic"
+                  style="background: rgba(180, 155, 255, 0.15)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--violet)"
+                    stroke-width="1.8"
+                  >
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                  </svg>
+                </div>
+
+                <div class="help-info">
+                  <h5>Women in Distress</h5>
+
+                  <p>Domestic abuse line</p>
+
+                  <a href="tel:181" class="help-num"> 181 </a>
+                </div>
+              </div>
+
+              <!-- AMBULANCE -->
+
+              <div class="help-card">
+                <div
+                  class="help-ic"
+                  style="background: rgba(51, 217, 178, 0.15)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--teal)"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      d="M12 21s-7.5-4.5-9.5-9C1 8 3 4 7 4c2 0 4 1.2 5 3 1-1.8 3-3 5-3 4 0 6 4 4.5 8-2 4.5-9.5 9-9.5 9z"
+                    />
+                  </svg>
+                </div>
+
+                <div class="help-info">
+                  <h5>Ambulance</h5>
+
+                  <p>Medical emergency</p>
+
+                  <a href="tel:108" class="help-num"> 108 </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- ================= TESTIMONIALS ================= -->
-  <section class="block" id="stories">
-    <div class="wrap">
-      <div class="section-head center">
-        <div class="eyebrow" style="justify-content:center;">Real stories</div>
-        <h2 class="section-title">Trusted by people who needed it most.</h2>
-      </div>
-      <div class="quote-grid">
-        <div class="quote-card">
-          <p class="q">"I held the button on a dark walk home and my mother had my location before I'd even reached the gate."</p>
-          <div class="quote-who">
-            <div class="quote-avatar" style="background:rgba(255,169,69,0.16); color:var(--saffron); border-color:rgba(255,169,69,0.4);">A</div>
-            <div><h6>Aanya R.</h6><span>Gurugram</span></div>
+      <!-- ================= STORIES ================= -->
+
+      <section class="block" id="stories">
+        <div class="wrap">
+          <div class="section-head center">
+            <div class="eyebrow" style="justify-content: center">
+              Real stories
+            </div>
+
+            <h2 class="section-title">Trusted by people who needed it most.</h2>
+          </div>
+
+          <div class="quote-grid">
+            <div class="quote-card">
+              <p class="q">
+                "I held the button on a dark walk home and my mother had my
+                location before I'd even reached the gate."
+              </p>
+
+              <div class="quote-who">
+                <div
+                  class="quote-avatar"
+                  style="
+                    background: rgba(255, 169, 69, 0.16);
+                    color: var(--saffron);
+                    border-color: rgba(255, 169, 69, 0.4);
+                  "
+                >
+                  A
+                </div>
+
+                <div>
+                  <h6>Aanya R.</h6>
+
+                  <span> Gurugram </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="quote-card">
+              <p class="q">
+                "My daughter lives alone for college. Guardian Mode is the one
+                thing that lets me actually sleep at night."
+              </p>
+
+              <div class="quote-who">
+                <div
+                  class="quote-avatar"
+                  style="
+                    background: rgba(51, 217, 178, 0.16);
+                    color: var(--teal);
+                    border-color: rgba(51, 217, 178, 0.4);
+                  "
+                >
+                  S
+                </div>
+
+                <div>
+                  <h6>Sunita M.</h6>
+
+                  <span> Parent, Pune </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="quote-card">
+              <p class="q">
+                "The safe-area map rerouted me through a lit, crowded street
+                instead of the shortcut I'd normally take. Small thing, big
+                difference."
+              </p>
+
+              <div class="quote-who">
+                <div
+                  class="quote-avatar"
+                  style="
+                    background: rgba(180, 155, 255, 0.16);
+                    color: var(--violet);
+                    border-color: rgba(180, 155, 255, 0.4);
+                  "
+                >
+                  R
+                </div>
+
+                <div>
+                  <h6>Riya K.</h6>
+
+                  <span> Delhi </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="quote-card">
-          <p class="q">"My daughter lives alone for college. Guardian Mode is the one thing that lets me actually sleep at night."</p>
-          <div class="quote-who">
-            <div class="quote-avatar" style="background:rgba(51,217,178,0.16); color:var(--teal); border-color:rgba(51,217,178,0.4);">S</div>
-            <div><h6>Sunita M.</h6><span>Parent, Pune</span></div>
+      </section>
+
+      <!-- ================= DOWNLOAD ================= -->
+
+      <section class="block" id="download" style="padding-top: 0">
+        <div class="wrap">
+          <div class="cta-band">
+            <h2>Your circle is one download away.</h2>
+
+            <p>
+              Free, forever, for every woman who wants someone watching her
+              back.
+            </p>
+
+            <div class="store-badges">
+              <a
+                href="#"
+                class="store-badge"
+                aria-label="Download on the App Store"
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M17.05 12.04c-.02-2.14 1.75-3.17 1.83-3.22-1-1.46-2.55-1.66-3.1-1.68-1.32-.13-2.58.78-3.25.78-.67 0-1.71-.76-2.81-.74-1.44.02-2.78.84-3.52 2.13-1.5 2.6-.38 6.46 1.08 8.57.71 1.03 1.56 2.19 2.68 2.15 1.08-.04 1.49-.7 2.79-.7 1.3 0 1.67.7 2.81.68 1.16-.02 1.9-1.05 2.6-2.09.82-1.2 1.16-2.36 1.18-2.42-.03-.01-2.26-.87-2.29-3.46zM14.95 5.6c.59-.71 1-1.7.89-2.7-.86.04-1.9.58-2.51 1.28-.55.62-1.03 1.63-.9 2.6.94.07 1.9-.48 2.52-1.18z"
+                  />
+                </svg>
+
+                <span class="store-text">
+                  <small> Download on the </small>
+
+                  <strong> App Store </strong>
+                </span>
+              </a>
+
+              <a
+                href="#"
+                class="store-badge"
+                aria-label="Get it on Google Play"
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M3.6 2.6c-.3.3-.5.8-.5 1.3v16.2c0 .5.2 1 .5 1.3l.1.1L13 12.2v-.2L3.7 2.5l-.1.1z"
+                  />
+
+                  <path
+                    d="M16.1 15.3l-3.1-3.1v-.2l3.1-3.1 3.5 2c.9.5.9 1.4 0 1.9l-3.5 2.5z"
+                    opacity=".7"
+                  />
+
+                  <path d="M13 12l-9.4 9.4c.4.4 1 .4 1.7.1l10.7-6.1L13 12z" />
+
+                  <path
+                    d="M16.3 9.3L5.6 3.2c-.7-.4-1.3-.3-1.7.1L13 12l3.3-2.7z"
+                    opacity=".85"
+                  />
+                </svg>
+
+                <span class="store-text">
+                  <small> Get it on </small>
+
+                  <strong> Google Play </strong>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="quote-card">
-          <p class="q">"The safe-area map rerouted me through a lit, crowded street instead of the shortcut I'd normally take. Small thing, big difference."</p>
-          <div class="quote-who">
-            <div class="quote-avatar" style="background:rgba(180,155,255,0.16); color:var(--violet); border-color:rgba(180,155,255,0.4);">R</div>
-            <div><h6>Riya K.</h6><span>Delhi</span></div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+      <div class="wrap">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="wordmark display">Sakhi<span class="go">Go</span></div>
+
+            <p>
+              Your safety companion — live location, one-tap SOS, and a trusted
+              circle that's always within reach.
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h6>Product</h6>
+
+            <ul>
+              <li>
+                <a href="#features"> Features </a>
+              </li>
+
+              <li>
+                <a href="#how"> How it works </a>
+              </li>
+
+              <li>
+                <a href="#download"> Download </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h6>Safety</h6>
+
+            <ul>
+              <li>
+                <a href="#helplines"> Helplines </a>
+              </li>
+
+              <li>
+                <a href="#stories"> Stories </a>
+              </li>
+
+              <li>
+                <a href="#"> Privacy &amp; data </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h6>Company</h6>
+
+            <ul>
+              <li>
+                <a href="#"> About </a>
+              </li>
+
+              <li>
+                <a href="#"> Contact </a>
+              </li>
+
+              <li>
+                <a href="#"> Careers </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================= DOWNLOAD CTA ================= -->
-  <section class="block" id="download" style="padding-top:0;">
-    <div class="wrap">
-      <div class="cta-band">
-        <h2>Your circle is one download away.</h2>
-        <p>Free, forever, for every woman who wants someone watching her back.</p>
-        <div class="store-badges">
-          <a href="#" class="store-badge" aria-label="Download on the App Store">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.02-2.14 1.75-3.17 1.83-3.22-1-1.46-2.55-1.66-3.1-1.68-1.32-.13-2.58.78-3.25.78-.67 0-1.71-.76-2.81-.74-1.44.02-2.78.84-3.52 2.13-1.5 2.6-.38 6.46 1.08 8.57.71 1.03 1.56 2.19 2.68 2.15 1.08-.04 1.49-.7 2.79-.7 1.3 0 1.67.7 2.81.68 1.16-.02 1.9-1.05 2.6-2.09.82-1.2 1.16-2.36 1.18-2.42-.03-.01-2.26-.87-2.29-3.46zM14.95 5.6c.59-.71 1-1.7.89-2.7-.86.04-1.9.58-2.51 1.28-.55.62-1.03 1.63-.9 2.6.94.07 1.9-.48 2.52-1.18z"/></svg>
-            <span class="store-text"><small>Download on the</small><strong>App Store</strong></span>
-          </a>
-          <a href="#" class="store-badge" aria-label="Get it on Google Play">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.6c-.3.3-.5.8-.5 1.3v16.2c0 .5.2 1 .5 1.3l.1.1L13 12.2v-.2L3.7 2.5l-.1.1z"/><path d="M16.1 15.3l-3.1-3.1v-.2l3.1-3.1 3.5 2c.9.5.9 1.4 0 1.9l-3.5 2.5z" opacity=".7"/><path d="M13 12l-9.4 9.4c.4.4 1 .4 1.7.1l10.7-6.1L13 12z"/><path d="M16.3 9.3L5.6 3.2c-.7-.4-1.3-.3-1.7.1L13 12l3.3-2.7z" opacity=".85"/></svg>
-            <span class="store-text"><small>Get it on</small><strong>Google Play</strong></span>
-          </a>
+        <div class="footer-bottom">
+          <span> © 2026 SakhiGo. All rights reserved. </span>
+
+          <span class="mono"> IN EMERGENCY, CALL 100 / 112 DIRECTLY </span>
         </div>
       </div>
-    </div>
-  </section>
+    </footer>
 
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="wordmark display">Sakhi<span class="go">Go</span></div>
-        <p>Your safety companion — live location, one-tap SOS, and a trusted circle that's always within reach.</p>
-      </div>
-      <div class="footer-col">
-        <h6>Product</h6>
-        <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="#download">Download</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h6>Safety</h6>
-        <ul>
-          <li><a href="#helplines">Helplines</a></li>
-          <li><a href="#stories">Stories</a></li>
-          <li><a href="#">Privacy &amp; data</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h6>Company</h6>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Careers</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 SakhiGo. All rights reserved.</span>
-      <span class="mono">IN EMERGENCY, CALL 100 / 112 DIRECTLY</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-  /* ---------------- Hero SOS hold demo ---------------- */
-  const sosBtn = document.getElementById('sosBtn');
-  const progressCircle = document.getElementById('progressCircle');
-  const sosLabel = document.getElementById('sosLabel');
-  const sosCaption = document.getElementById('sosCaption');
-  const CIRC = 2 * Math.PI * 92;
-  progressCircle.style.strokeDasharray = CIRC;
-  progressCircle.style.strokeDashoffset = CIRC;
-  let holdTimer = null, holdStart = null, sosSent = false;
-  const HOLD_MS = 2000;
-
-  function startHold(e){
-    if(sosSent) return;
-    e.preventDefault();
-    holdStart = Date.now();
-    sosBtn.classList.add('holding');
-    sosLabel.textContent = 'Keep holding…';
-    sosCaption.textContent = 'Holding — release to cancel the demo.';
-    holdTimer = requestAnimationFrame(tickHold);
-  }
-  function tickHold(){
-    const elapsed = Date.now() - holdStart;
-    const pct = Math.min(elapsed / HOLD_MS, 1);
-    progressCircle.style.strokeDashoffset = CIRC * (1 - pct);
-    if(pct >= 1){ triggerSOS(); return; }
-    holdTimer = requestAnimationFrame(tickHold);
-  }
-  function cancelHold(){
-    if(sosSent) return;
-    cancelAnimationFrame(holdTimer);
-    progressCircle.style.strokeDashoffset = CIRC;
-    sosBtn.classList.remove('holding');
-    sosLabel.textContent = 'Hold 2s';
-    sosCaption.textContent = "This is a live demo. Press & hold — in the real app, this alerts your guardians and police instantly.";
-  }
-  function triggerSOS(){
-    cancelAnimationFrame(holdTimer);
-    sosSent = true;
-    sosBtn.classList.remove('holding');
-    sosBtn.classList.add('sent');
-    sosLabel.textContent = 'Alert sent';
-    sosCaption.textContent = "That's the whole gesture. In the real app, guardians and police get notified in seconds.";
-    setTimeout(() => {
-      sosSent = false;
-      sosBtn.classList.remove('sent');
-      sosLabel.textContent = 'Hold 2s';
-      sosCaption.textContent = "This is a live demo. Press & hold — in the real app, this alerts your guardians and police instantly.";
-      progressCircle.style.strokeDashoffset = CIRC;
-    }, 2600);
-  }
-  sosBtn.addEventListener('mousedown', startHold);
-  sosBtn.addEventListener('touchstart', startHold, {passive:false});
-  ['mouseup','mouseleave','touchend','touchcancel'].forEach(evt => sosBtn.addEventListener(evt, cancelHold));
-</script>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
