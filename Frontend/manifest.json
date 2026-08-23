@@ -1,0 +1,19 @@
+{
+  "name": "SakhiGo — Your Safety Companion",
+  "short_name": "SakhiGo",
+  "description": "One-tap SOS, live location sharing, safe-area finder, and helplines — a safety net that's always one tap away.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1c1220",
+  "theme_color": "#1c1220",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

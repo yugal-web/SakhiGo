@@ -11,8 +11,26 @@
       content="SakhiGo alerts your trusted people and the police in seconds. Live location sharing, one-tap SOS, and verified safe routes — built for women, everywhere."
     />
 
+    <meta name="theme-color" content="#1c1220" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Open Graph / social preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SakhiGo — Your Safety Companion" />
+    <meta
+      property="og:description"
+      content="One-tap SOS, live location sharing, and verified helplines — a safety net that's always one tap away."
+    />
+    <meta property="og:image" content="icon.svg" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="manifest" href="manifest.json" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://overpass-api.de" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
@@ -46,6 +64,10 @@
           <ul class="nav-links">
             <li>
               <a href="#features">Features</a>
+            </li>
+
+            <li>
+              <a href="#console">Try it live</a>
             </li>
 
             <li>
@@ -365,6 +387,166 @@
         </div>
       </section>
 
+      <!-- ================= LIVE CONSOLE (FUNCTIONAL) ================= -->
+
+      <section class="block" id="console">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="eyebrow" style="margin-bottom: 12px">
+              Working right now — no install, no signup
+            </div>
+
+            <h2 class="section-title">This isn't a mockup. Try the real thing.</h2>
+
+            <p class="section-sub">
+              Add your guardians, then trigger a real alert, share your live
+              location, or pull up crowded, well-lit places near you — right
+              in this browser tab.
+            </p>
+          </div>
+
+          <div class="console-grid">
+            <!-- GUARDIANS -->
+
+            <div class="console-card" id="guardiansCard">
+              <div class="console-card-head">
+                <div
+                  class="feat-ic"
+                  style="background: rgba(180, 155, 255, 0.15); color: var(--violet); margin-bottom: 0"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M20 21v-2a4 4 0 00-3-3.87M15 3.13a4 4 0 010 7.75" />
+                  </svg>
+                </div>
+
+                <div>
+                  <h4>Your guardians</h4>
+                  <p class="console-card-sub">Saved only on this device</p>
+                </div>
+              </div>
+
+              <form id="guardianForm" class="guardian-form" autocomplete="off">
+                <input
+                  type="text"
+                  id="guardianName"
+                  class="guardian-input"
+                  placeholder="Name (e.g. Mom)"
+                  maxlength="40"
+                  required
+                />
+
+                <input
+                  type="tel"
+                  id="guardianPhone"
+                  class="guardian-input"
+                  placeholder="Phone number, with country code"
+                  inputmode="tel"
+                  required
+                />
+
+                <button type="submit" class="btn-primary console-btn-full">
+                  Add guardian
+                </button>
+              </form>
+
+              <p id="guardianError" class="console-error" role="alert" hidden></p>
+
+              <ul id="guardianList" class="guardian-list"></ul>
+
+              <p id="guardianEmpty" class="console-empty">
+                No guardians saved yet — add at least one so a real SOS has
+                someone to reach.
+              </p>
+            </div>
+
+            <!-- REAL SOS -->
+
+            <div class="console-card" id="sosCard">
+              <div class="console-card-head">
+                <div
+                  class="feat-ic"
+                  style="background: rgba(255, 77, 109, 0.15); color: var(--rose); margin-bottom: 0"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a2 2 0 001.7 3h15.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z" />
+                  </svg>
+                </div>
+
+                <div>
+                  <h4>Real Emergency SOS</h4>
+                  <p class="console-card-sub">Press and hold for 2 seconds</p>
+                </div>
+              </div>
+
+              <button id="realSosBtn" class="real-sos-btn" aria-describedby="realSosStatus">
+                <span class="real-sos-fill" id="realSosFill"></span>
+                <span class="real-sos-label" id="realSosBtnLabel">Hold to send SOS</span>
+              </button>
+
+              <p id="realSosStatus" class="console-status" aria-live="polite">
+                This finds your live location, then hands you real ways to
+                reach your guardians and the police — instantly.
+              </p>
+
+              <div id="sosActions" class="sos-actions" hidden>
+                <button id="sosShareBtn" class="btn-primary console-btn-full" type="button">
+                  Share alert now (all apps)
+                </button>
+
+                <button id="sosCopyBtn" class="btn-ghost console-btn-full" type="button">
+                  Copy alert message
+                </button>
+
+                <div id="sosGuardianLinks" class="guardian-quick-links"></div>
+
+                <div class="sos-call-row">
+                  <a href="tel:100" class="btn-ghost console-call-btn">Call Police — 100</a>
+                  <a href="tel:1091" class="btn-ghost console-call-btn">Call Women's Helpline — 1091</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- SAFE AREAS -->
+
+            <div class="console-card" id="safeCard">
+              <div class="console-card-head">
+                <div
+                  class="feat-ic"
+                  style="background: rgba(255, 169, 69, 0.15); color: var(--saffron); margin-bottom: 0"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 3v18M3 12h18" />
+                  </svg>
+                </div>
+
+                <div>
+                  <h4>Safe public areas nearby</h4>
+                  <p class="console-card-sub">Police, hospitals, malls &amp; stores</p>
+                </div>
+              </div>
+
+              <button id="findSafeBtn" class="location-btn console-btn-full" style="margin-top: 4px">
+                Find safe areas near me
+              </button>
+
+              <p id="safeStatus" class="console-status" aria-live="polite">
+                Uses your live location to pull nearby, well-lit, crowded
+                places from open map data.
+              </p>
+
+              <ul id="safeList" class="safe-list"></ul>
+
+              <button id="safeWidenBtn" class="btn-ghost console-btn-full" type="button" hidden>
+                Widen search to 5&nbsp;km
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ================= HOW IT WORKS ================= -->
 
       <section class="block" id="how">
@@ -674,6 +856,64 @@
                   <a href="tel:108" class="help-num"> 108 </a>
                 </div>
               </div>
+
+              <!-- CYBER CRIME -->
+
+              <div class="help-card">
+                <div
+                  class="help-ic"
+                  style="background: rgba(180, 155, 255, 0.15)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--violet)"
+                    stroke-width="1.8"
+                  >
+                    <rect x="3" y="11" width="18" height="10" rx="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                  </svg>
+                </div>
+
+                <div class="help-info">
+                  <h5>Cyber Crime</h5>
+
+                  <p>Online harassment &amp; fraud</p>
+
+                  <a href="tel:1930" class="help-num"> 1930 </a>
+                </div>
+              </div>
+
+              <!-- CHILD HELPLINE -->
+
+              <div class="help-card">
+                <div
+                  class="help-ic"
+                  style="background: rgba(255, 169, 69, 0.15)"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--saffron)"
+                    stroke-width="1.8"
+                  >
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
+                  </svg>
+                </div>
+
+                <div class="help-info">
+                  <h5>Child Helpline</h5>
+
+                  <p>24×7 child protection</p>
+
+                  <a href="tel:1098" class="help-num"> 1098 </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -863,6 +1103,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>
