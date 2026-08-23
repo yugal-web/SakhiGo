@@ -1103,6 +1103,92 @@
       </div>
     </footer>
 
+    <!-- ================= SAKHIGO AI ASSISTANT ================= -->
+
+    <div class="ai-widget" id="aiWidget">
+      <button
+        class="ai-fab"
+        id="aiFabBtn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="aiPanel"
+        aria-label="Open SakhiGo AI assistant"
+      >
+        <span class="ai-fab-dot"></span>
+        Sakhi AI
+      </button>
+
+      <div class="ai-panel" id="aiPanel" hidden>
+        <div class="ai-panel-header">
+          <div>
+            <strong>SakhiGo AI</strong>
+            <span class="ai-panel-sub">Safety assistant</span>
+          </div>
+
+          <div class="ai-panel-actions">
+            <button type="button" class="ai-icon-btn" id="aiSettingsBtn" aria-label="Assistant settings" title="Settings">
+              ⚙
+            </button>
+            <button type="button" class="ai-icon-btn" id="aiCloseBtn" aria-label="Close assistant" title="Close">
+              &times;
+            </button>
+          </div>
+        </div>
+
+        <div class="ai-settings" id="aiSettings" hidden>
+          <label for="aiKeyInput">Gemini API key</label>
+          <input
+            type="password"
+            id="aiKeyInput"
+            placeholder="Paste your Gemini API key"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <p class="ai-settings-note">
+            Saved only in this browser (localStorage) — never sent anywhere
+            except Google's Gemini API when you send a message.
+          </p>
+          <div class="ai-settings-actions">
+            <button type="button" class="btn-primary" id="aiSaveKeyBtn">Save key</button>
+            <button type="button" class="btn-ghost" id="aiClearKeyBtn">Remove</button>
+          </div>
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            rel="noopener"
+            class="ai-settings-link"
+          >
+            Get a free Gemini API key →
+          </a>
+        </div>
+
+        <div class="ai-messages" id="aiMessages">
+          <div class="ai-msg ai-msg-bot">
+            <p>
+              Hi, I'm Sakhi — your safety assistant. Ask me for safety tips,
+              what to do if you feel uneasy, or general guidance.
+            </p>
+            <p class="ai-msg-note">
+              In an active emergency, use the SOS button above or call
+              112 / 100 directly — I can't contact anyone on your behalf.
+            </p>
+          </div>
+        </div>
+
+        <form class="ai-input-row" id="aiForm">
+          <input
+            type="text"
+            id="aiInput"
+            placeholder="Ask Sakhi something…"
+            autocomplete="off"
+          />
+          <button type="submit" class="ai-send-btn" aria-label="Send message">
+            ➤
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script src="script.js" defer></script>
   </body>
 </html>
