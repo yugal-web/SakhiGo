@@ -762,3 +762,244 @@
         });
       }
     
+    /* =========================================================
+   SAKHIGO AI ASSISTANT (Gemini API, called directly from the browser)
+   ========================================================= */
+
+    (function initSakhiAI() {
+      const GEMINI_KEY_STORAGE = "sakhigo_gemini_key";
+      // Change this if Google renames/retires the model — check https://aistudio.google.com
+      // for the exact model name your API key currently has access to.
+      const GEMINI_MODEL = "gemini-2.5-flash";
+      const GEMINI_URL = (key) =>
+        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(key)}`;
+
+      const SYSTEM_INSTRUCTION = [
+        "You are Sakhi, a calm and supportive safety assistant inside the SakhiGo app, used mainly by women in India.",
+        "Keep replies short (2-5 sentences), practical, warm, and non-alarmist.",
+        "If the user describes danger that sounds current or urgent, your FIRST sentence must tell them to call 112 (India's emergency number) or 100 (police) right now, and to use SakhiGo's SOS button — then keep helping.",
+        "You cannot see the user's location, contact anyone, or send messages on their behalf — never imply that you can. Direct them to the app's SOS button and helplines for that.",
+        "You can: give general safety tips, calming grounding guidance, what to do in common unsafe situations, and general informational answers.",
+        "You are not a doctor or lawyer — for medical or legal questions, say so briefly and suggest a relevant professional or helpline.",
+      ].join(" ");
+
+      const fabBtn = document.getElementById("aiFabBtn");
+      const panel = document.getElementById("aiPanel");
+      const closeBtn = document.getElementById("aiCloseBtn");
+      const settingsBtn = document.getElementById("aiSettingsBtn");
+      const settingsPanel = document.getElementById("aiSettings");
+      const keyInput = document.getElementById("aiKeyInput");
+      const saveKeyBtn = document.getElementById("aiSaveKeyBtn");
+      const clearKeyBtn = document.getElementById("aiClearKeyBtn");
+      const messagesEl = document.getElementById("aiMessages");
+      const form = document.getElementById("aiForm");
+      const input = document.getElementById("aiInput");
+
+      if (!fabBtn || !panel) return; // widget not present on this page
+
+      let history = []; // { role: "user" | "model", text: string }
+      let sending = false;
+
+      function getKey() {
+        try {
+          return localStorage.getItem(GEMINI_KEY_STORAGE) || "";
+        } catch (err) {
+          return "";
+        }
+      }
+
+      function setKey(key) {
+        try {
+          localStorage.setItem(GEMINI_KEY_STORAGE, key);
+        } catch (err) {
+          /* localStorage unavailable (private mode) — key just won't persist. */
+        }
+      }
+
+      function removeKey() {
+        try {
+          localStorage.removeItem(GEMINI_KEY_STORAGE);
+        } catch (err) {
+          /* ignore */
+        }
+      }
+
+      function openPanel(focusInput = true) {
+        panel.hidden = false;
+        fabBtn.setAttribute("aria-expanded", "true");
+
+        if (!focusInput) return;
+
+        if (!getKey()) {
+          settingsPanel.hidden = false;
+          keyInput.focus();
+        } else {
+          input.focus();
+        }
+      }
+
+      function closePanel() {
+        panel.hidden = true;
+        fabBtn.setAttribute("aria-expanded", "false");
+      }
+
+      fabBtn.addEventListener("click", () => {
+        if (panel.hidden) openPanel();
+        else closePanel();
+      });
+
+      // Hover-to-open: hovering the button (or the open panel) keeps it open;
+      // moving away from both closes it after a short delay so moving the
+      // mouse from the button to the panel doesn't flicker it shut.
+      let hoverCloseTimer = null;
+
+      function cancelHoverClose() {
+        if (hoverCloseTimer) {
+          clearTimeout(hoverCloseTimer);
+          hoverCloseTimer = null;
+        }
+      }
+
+      function scheduleHoverClose() {
+        cancelHoverClose();
+        hoverCloseTimer = setTimeout(() => {
+          closePanel();
+        }, 250);
+      }
+
+      fabBtn.addEventListener("mouseenter", () => {
+        cancelHoverClose();
+        openPanel(false);
+      });
+
+      fabBtn.addEventListener("mouseleave", scheduleHoverClose);
+      panel.addEventListener("mouseenter", cancelHoverClose);
+      panel.addEventListener("mouseleave", scheduleHoverClose);
+
+      closeBtn.addEventListener("click", closePanel);
+
+      settingsBtn.addEventListener("click", () => {
+        settingsPanel.hidden = !settingsPanel.hidden;
+        if (!settingsPanel.hidden) {
+          keyInput.value = getKey();
+          keyInput.focus();
+        }
+      });
+
+      saveKeyBtn.addEventListener("click", () => {
+        const value = keyInput.value.trim();
+        if (!value) return;
+        setKey(value);
+        settingsPanel.hidden = true;
+        input.focus();
+      });
+
+      clearKeyBtn.addEventListener("click", () => {
+        removeKey();
+        keyInput.value = "";
+      });
+
+      function appendMessage(role, text) {
+        const div = document.createElement("div");
+        div.className =
+          role === "user" ? "ai-msg ai-msg-user" : role === "error" ? "ai-msg ai-msg-error" : "ai-msg ai-msg-bot";
+
+        const p = document.createElement("p");
+        p.textContent = text; // textContent — never innerHTML — so nothing here can inject markup
+        div.appendChild(p);
+
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return div;
+      }
+
+      function appendTyping() {
+        const div = document.createElement("div");
+        div.className = "ai-msg ai-msg-typing";
+        div.id = "aiTypingIndicator";
+        div.textContent = "Sakhi is typing…";
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      function removeTyping() {
+        const el = document.getElementById("aiTypingIndicator");
+        if (el) el.remove();
+      }
+
+      async function callGemini(userText) {
+        const key = getKey();
+
+        const contents = history
+          .slice(-10) // keep the last few turns so replies stay quick and on-topic
+          .concat([{ role: "user", text: userText }])
+          .map((turn) => ({
+            role: turn.role === "user" ? "user" : "model",
+            parts: [{ text: turn.text }],
+          }));
+
+        const response = await fetch(GEMINI_URL(key), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+            contents,
+          }),
+        });
+
+        if (!response.ok) {
+          if (response.status === 400 || response.status === 403) {
+            throw new Error("Your Gemini API key looks invalid or isn't enabled for this model. Check it in Settings.");
+          }
+          if (response.status === 429) {
+            throw new Error("Gemini's free-tier rate limit was hit. Wait a moment and try again.");
+          }
+          throw new Error("Gemini couldn't answer that right now. Please try again.");
+        }
+
+        const data = await response.json();
+        const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text || "").join("").trim();
+
+        if (!text) {
+          throw new Error("Gemini didn't return a reply — please try rephrasing.");
+        }
+
+        return text;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (sending) return;
+
+        const text = input.value.trim();
+        if (!text) return;
+
+        if (!getKey()) {
+          settingsPanel.hidden = false;
+          keyInput.focus();
+          return;
+        }
+
+        appendMessage("user", text);
+        history.push({ role: "user", text });
+        input.value = "";
+
+        sending = true;
+        input.disabled = true;
+        appendTyping();
+
+        try {
+          const reply = await callGemini(text);
+          removeTyping();
+          appendMessage("bot", reply);
+          history.push({ role: "model", text: reply });
+        } catch (err) {
+          removeTyping();
+          appendMessage("error", err.message || "Something went wrong talking to Gemini.");
+        } finally {
+          sending = false;
+          input.disabled = false;
+          input.focus();
+        }
+      });
+    })();
