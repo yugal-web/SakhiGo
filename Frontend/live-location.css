@@ -1,0 +1,14 @@
+
+/* =========================================================
+   LIVE LOCATION SHARING UI
+   ========================================================= */
+.sakhigo-live-card { grid-column: 1 / -1; }
+.sakhigo-live-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.sakhigo-live-link { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+.sakhigo-live-link input { flex:1; min-width:220px; }
+.sakhigo-live-map { width:100%; height:360px; border-radius:18px; overflow:hidden; margin-top:16px; background:#17131b; }
+.sakhigo-live-badge { display:inline-flex; align-items:center; gap:7px; padding:7px 10px; border-radius:999px; background:rgba(51,217,178,.12); color:var(--teal); font-size:.82rem; }
+.sakhigo-live-dot { width:8px; height:8px; border-radius:50%; background:currentColor; }
+.sakhigo-live-meta { font-size:.86rem; opacity:.8; margin-top:8px; }
+.sakhigo-live-success { color:var(--teal) !important; }
+.sakhigo-live-error { color:#ff8ca0 !important; }
