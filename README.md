@@ -35,7 +35,7 @@ Millions of women deal with the quiet anxiety of commuting alone — late from w
 - Progressive Web App (installable, offline-capable manifest + service worker)
 
 **Backend**
-- Java (Spring Boot) — REST APIs for auth, contacts, alerts, and reports
+- REST APIs for auth, contacts, alerts, and reports
 
 **Database**
 - MySQL / PostgreSQL — users, emergency contacts, safety reports
