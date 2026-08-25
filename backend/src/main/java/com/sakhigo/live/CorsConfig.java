@@ -7,8 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-    @Value("${app.frontend-url:http://localhost:5500}")
-    private String frontendUrl;
+    @Value("${FRONTEND_URL:http://localhost:5500}")
+private String frontendUrl;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
