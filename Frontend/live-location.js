@@ -4,7 +4,7 @@
    Backend: Spring Boot + PostgreSQL
    ========================================================= */
 (function initLiveLocationSharing() {
-  const API_BASE = window.SAKHIGO_API_BASE || "http://localhost:8080/api/live-location";
+  const API_BASE = window.SAKHIGO_API_BASE || "https://sakhigo-backend.onrender.com/api/live-location";
   const TRACKING_PATH = window.SAKHIGO_TRACKING_PATH || window.location.pathname;
   const MAPS_API_KEY = window.SAKHIGO_MAPS_API_KEY || "PUT_YOUR_GOOGLE_MAPS_KEY_HERE";
 
