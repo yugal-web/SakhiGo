@@ -31,6 +31,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://overpass-api.de" />
+    <link rel="preconnect" href="https://nominatim.openstreetmap.org" />
+    <link rel="preconnect" href="https://router.project-osrm.org" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
@@ -73,6 +76,10 @@
             </li>
 
             <li>
+              <a href="#journey">Plan journey</a>
+            </li>
+
+            <li>
               <a href="#console">Try it live</a>
             </li>
 
@@ -110,6 +117,13 @@
             </p>
 
             <div class="hero-ctas">
+
+              <a href="#journey" class="btn-primary">
+                Plan a safer journey
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
 
               <a href="#how" class="btn-ghost">
                 See how it works
@@ -191,34 +205,6 @@
           </div>
 
           <div class="feat-grid">
-<<<<<<< HEAD
-            <!-- SOS -->
-
-            <div class="feat-card feat-sos">
-              <div class="feat-ic">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a2 2 0 001.7 3h15.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"
-                  />
-                </svg>
-              </div>
-
-              <h4>Emergency SOS</h4>
-
-              <p>
-                Hold for two seconds to alert your guardians and the nearest
-                police control room, with your live location attached.
-              </p><br>
-            </div>
-=======
->>>>>>> 957cd60bc8934129c876e461dbfbdb5d626dc6f2
 
             <!-- LIVE LOCATION -->
 
@@ -268,7 +254,7 @@
                 </svg>
               </div>
 
-              <h4>Share Current location</h4>
+              <h4>Share my location</h4>
 
               <p>
                 Get your current location and quickly share it with family,
@@ -335,6 +321,137 @@
                 24×7 stores, hospitals — to route through or head to.
               </p>
             </div>
+
+            <!-- HELPLINES -->
+
+            <div class="feat-card feat-help">
+              <div class="feat-ic">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.33 1.79.63 2.65a2 2 0 01-.45 2.11L8.09 9.68a16 16 0 006.23 6.23l1.2-1.2a2 2 0 012.11-.45c.86.3 1.75.51 2.65.63A2 2 0 0122 16.92z"
+                  />
+                </svg>
+              </div>
+
+              <h4>One-tap helplines</h4>
+
+              <p>
+                Police, women's helpline, distress line, and ambulance —
+                verified numbers, dialled with a single tap.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= JOURNEY SAFETY PLANNER ================= -->
+
+      <section class="block" id="journey">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="eyebrow" style="margin-bottom: 12px">Safety intelligence layer</div>
+            <h2 class="section-title">Tell SakhiGo where you're going.</h2>
+            <p class="section-sub">
+              Enter a destination and departure time. SakhiGo gets a real route, explains the safety score,
+              highlights practical safe points nearby, and gives you a next action.
+            </p>
+          </div>
+
+          <div class="journey-grid">
+            <div class="console-card journey-controls">
+              <div class="console-card-head">
+                <div class="feat-ic" style="background: rgba(180, 155, 255, 0.15); color: var(--violet); margin-bottom: 0">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>Plan your journey</h4>
+                  <p class="console-card-sub">Route + time + your safety priorities</p>
+                </div>
+              </div>
+
+              <div class="journey-form">
+                <label class="journey-label" for="destinationInput">Destination</label>
+                <div class="journey-search-row">
+                  <input id="destinationInput" class="guardian-input" type="text" placeholder="e.g. Connaught Place, New Delhi" autocomplete="off" />
+                  <button id="useLocationBtn" class="btn-ghost journey-mini-btn" type="button">Use my location</button>
+                </div>
+                <div id="destinationSuggestions" class="destination-suggestions" hidden></div>
+
+                <div class="journey-two-col">
+                  <div>
+                    <label class="journey-label" for="departureTime">Departure time</label>
+                    <input id="departureTime" class="guardian-input" type="datetime-local" />
+                  </div>
+                  <div>
+                    <label class="journey-label" for="travelMode">Travel mode</label>
+                    <select id="travelMode" class="guardian-input">
+                      <option value="walking">Walking</option>
+                      <option value="driving">Driving</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="journey-pref-grid">
+                  <label><input type="checkbox" class="journey-pref" value="lighting" checked /> Well-lit roads</label>
+                  <label><input type="checkbox" class="journey-pref" value="crowd" checked /> Crowd activity</label>
+                  <label><input type="checkbox" class="journey-pref" value="public" checked /> Public / staffed places</label>
+                  <label><input type="checkbox" class="journey-pref" value="familiar" /> Familiar roads</label>
+                </div>
+
+                <button id="planJourneyBtn" class="btn-primary console-btn-full" type="button">
+                  Calculate safer route
+                </button>
+                <p id="journeyStatus" class="console-status" aria-live="polite">Allow location access, then enter a destination.</p>
+              </div>
+            </div>
+
+            <div class="console-card journey-result-card">
+              <div class="journey-result-top">
+                <div>
+                  <p class="console-card-sub">LIVE JOURNEY</p>
+                  <h3 id="journeyTitle">Your route will appear here</h3>
+                  <p id="journeyMeta" class="journey-meta">Destination not selected yet</p>
+                </div>
+                <div class="score-orb" id="journeyScoreOrb" aria-label="Safety score">
+                  <span id="journeyScore">—</span><small>/100</small>
+                </div>
+              </div>
+
+              <div id="journeyMap" class="journey-map" aria-label="Journey map"></div>
+
+              <div class="journey-facts" id="journeyFacts">
+                <div><strong>Route</strong><span>Waiting for destination</span></div>
+                <div><strong>Safe points</strong><span>—</span></div>
+                <div><strong>Caution</strong><span>—</span></div>
+                <div><strong>Next check-in</strong><span>—</span></div>
+              </div>
+
+              <div class="journey-guidance" id="journeyGuidance">
+                <strong>Next action</strong>
+                <span>Plan a destination to get a personalized safety recommendation.</span>
+              </div>
+
+              <div class="journey-actions" id="journeyActions" hidden>
+                <button id="startJourneyBtn" class="btn-primary" type="button">Start journey</button>
+                <button id="routeDirectionsBtn" class="btn-ghost" type="button">Open directions</button>
+                <button id="nearestSafeBtn" class="btn-ghost" type="button">Nearest safe point</button>
+              </div>
+
+              <div id="checkinBar" class="checkin-bar" hidden>
+                <div><strong>Journey check-in</strong><span id="checkinTimer">Next check-in in 7 min</span></div>
+                <button id="checkinBtn" class="btn-ghost" type="button">I'm safe</button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -924,6 +1041,7 @@
       </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="live-location.js" defer></script>
     <script src="script.js" defer></script>
   </body>

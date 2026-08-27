@@ -3055,3 +3055,33 @@ footer {
     font-size: 13px;
   }
 }
+
+
+/* ================= JOURNEY SAFETY PLANNER ================= */
+.journey-grid{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(420px,1.18fr);gap:18px;align-items:stretch}
+.journey-controls,.journey-result-card{min-height:640px}
+.journey-form{display:flex;flex-direction:column;gap:12px}
+.journey-label{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+.journey-search-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.journey-mini-btn{padding:10px 12px;white-space:nowrap}
+.journey-two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.journey-two-col select,.journey-two-col input{width:100%;box-sizing:border-box}
+.journey-pref-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 6px}
+.journey-pref-grid label{font-size:12px;color:var(--text-dim);padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.journey-pref-grid input{accent-color:var(--violet);margin-right:6px}
+.destination-suggestions{border:1px solid var(--line-strong);background:var(--surface-2);border-radius:12px;overflow:hidden;margin-top:-5px}
+.destination-suggestion{display:block;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:11px 12px;color:var(--text);cursor:pointer;font:inherit}
+.destination-suggestion:last-child{border-bottom:0}.destination-suggestion:hover{background:var(--bg-2)}
+.journey-result-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
+.journey-result-top h3{font-family:var(--font-display,inherit);font-size:28px;margin:5px 0 2px;line-height:1.05}.journey-meta{margin:0;color:var(--text-dim);font-size:13px}
+.score-orb{min-width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;border:1px solid var(--line-strong);background:var(--surface-2);box-shadow:0 0 0 7px rgba(180,155,255,.05)}
+.score-orb span{font-size:28px;font-weight:900;line-height:1}.score-orb small{font-size:10px;color:var(--text-dim);margin-top:2px}
+.journey-map{height:330px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#1c2326}
+.journey-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.journey-facts>div{padding:11px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px}.journey-facts strong,.journey-facts span{display:block}.journey-facts strong{font-size:10px;text-transform:uppercase;color:var(--text-dim);letter-spacing:.08em;margin-bottom:4px}.journey-facts span{font-size:13px}
+.journey-guidance{display:flex;flex-direction:column;gap:5px;margin-top:12px;padding:13px 14px;border:1px solid rgba(180,155,255,.25);background:rgba(180,155,255,.06);border-radius:12px;font-size:13px}.journey-guidance strong{text-transform:uppercase;font-size:10px;letter-spacing:.08em;color:var(--violet)}
+.journey-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.journey-actions button{flex:1;min-width:150px}
+.checkin-bar{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid rgba(115,213,168,.22);background:rgba(115,213,168,.06);display:flex;align-items:center;justify-content:space-between;gap:10px}.checkin-bar strong,.checkin-bar span{display:block}.checkin-bar span{font-size:12px;color:var(--text-dim);margin-top:2px}
+.route-start{background:#7cffb4!important;border:3px solid #123b28!important;border-radius:50%;width:12px!important;height:12px!important}.route-destination{background:#ff6f91!important;border:3px solid #4b1628!important;border-radius:50%;width:12px!important;height:12px!important}
+.leaflet-control-attribution{font-size:9px}
+@media(max-width:900px){.journey-grid{grid-template-columns:1fr}.journey-controls,.journey-result-card{min-height:auto}.journey-map{height:300px}}
+@media(max-width:560px){.journey-search-row,.journey-two-col,.journey-pref-grid{grid-template-columns:1fr}.journey-mini-btn{width:100%}.journey-result-top{flex-direction:column}.score-orb{min-width:72px;height:72px}.journey-actions{flex-direction:column}.journey-actions button{width:100%}}

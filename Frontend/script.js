@@ -747,6 +747,331 @@
         );
       });
 
+
+
+/* =========================================================
+   SAKHIGO JOURNEY SAFETY PLANNER
+   Uses open geocoding/routing services, then applies a small
+   explainable safety layer for the MVP demo.
+   ========================================================= */
+(function initJourneyPlanner(){
+  const destinationInput = document.getElementById("destinationInput");
+  const suggestionsEl = document.getElementById("destinationSuggestions");
+  const departureTime = document.getElementById("departureTime");
+  const travelMode = document.getElementById("travelMode");
+  const useLocationBtn = document.getElementById("useLocationBtn");
+  const planBtn = document.getElementById("planJourneyBtn");
+  const statusEl = document.getElementById("journeyStatus");
+  const mapEl = document.getElementById("journeyMap");
+  const titleEl = document.getElementById("journeyTitle");
+  const metaEl = document.getElementById("journeyMeta");
+  const scoreEl = document.getElementById("journeyScore");
+  const factsEl = document.getElementById("journeyFacts");
+  const guidanceEl = document.getElementById("journeyGuidance");
+  const actionsEl = document.getElementById("journeyActions");
+  const startBtn = document.getElementById("startJourneyBtn");
+  const directionsBtn = document.getElementById("routeDirectionsBtn");
+  const nearestSafeBtn = document.getElementById("nearestSafeBtn");
+  const checkinBar = document.getElementById("checkinBar");
+  const checkinBtn = document.getElementById("checkinBtn");
+  const checkinTimer = document.getElementById("checkinTimer");
+
+  if (!destinationInput || !planBtn || !mapEl) return;
+
+  let map = null;
+  let routeLayer = null;
+  let startMarker = null;
+  let destinationMarker = null;
+  let currentPosition = null;
+  let destination = null;
+  let routeData = null;
+  let safePoints = [];
+  let lastSafePoint = null;
+  let autocompleteTimer = null;
+  let journeyStarted = false;
+  let checkinInterval = null;
+  let checkinSeconds = 420;
+  let safeMarkerLayer = null;
+
+  function pad(n){return String(n).padStart(2,"0");}
+  function setDefaultDeparture(){
+    const d = new Date(Date.now() + 10*60*1000);
+    d.setSeconds(0,0);
+    departureTime.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+  setDefaultDeparture();
+
+  function initMap(lat=20.5937, lon=78.9629){
+    if (map) return;
+    if (!window.L){
+      mapEl.innerHTML = '<div style="padding:20px;color:#bbb">Map library could not load. Route details and directions are still available below.</div>';
+      return;
+    }
+    map = L.map(mapEl,{zoomControl:true,scrollWheelZoom:false}).setView([lat,lon],13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
+  }
+  initMap();
+
+  function clearMapLayers(){
+    if (!map) return;
+    if (routeLayer){ map.removeLayer(routeLayer); routeLayer=null; }
+    if (startMarker){ map.removeLayer(startMarker); startMarker=null; }
+    if (destinationMarker){ map.removeLayer(destinationMarker); destinationMarker=null; }
+  }
+
+  function getCurrentLocation(options={}){
+    return new Promise((resolve,reject)=>{
+      if (!navigator.geolocation){reject(new Error("Location services are not supported by this browser."));return;}
+      navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:12000,maximumAge:30000,...options});
+    });
+  }
+
+  async function reverseGeocode(lat,lon){
+    const url=`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+    const response=await fetch(url,{headers:{Accept:"application/json"}});
+    if(!response.ok) throw new Error("Reverse geocoding failed");
+    const data=await response.json();
+    return data.display_name || `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+  }
+
+  async function geocodeDestination(query){
+    const url=`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&addressdetails=1&q=${encodeURIComponent(query)}`;
+    const response=await fetch(url,{headers:{Accept:"application/json"}});
+    if(!response.ok) throw new Error("Destination search is unavailable right now.");
+    const data=await response.json();
+    return data.map(x=>({lat:Number(x.lat),lon:Number(x.lon),label:x.display_name}));
+  }
+
+  function showSuggestions(items){
+    suggestionsEl.innerHTML="";
+    if(!items.length){suggestionsEl.hidden=true;return;}
+    items.forEach(item=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="destination-suggestion"; b.textContent=item.label;
+      b.addEventListener("click",()=>{
+        destination=item; destinationInput.value=item.label; suggestionsEl.hidden=true;
+      });
+      suggestionsEl.appendChild(b);
+    });
+    suggestionsEl.hidden=false;
+  }
+
+  destinationInput.addEventListener("input",()=>{
+    destination=null;
+    const q=destinationInput.value.trim();
+    clearTimeout(autocompleteTimer);
+    if(q.length<3){suggestionsEl.hidden=true;return;}
+    autocompleteTimer=setTimeout(async()=>{
+      try{ showSuggestions(await geocodeDestination(q)); }catch{ suggestionsEl.hidden=true; }
+    },500);
+  });
+
+  useLocationBtn.addEventListener("click", async()=>{
+    try{
+      statusEl.textContent="Getting your current location…";
+      const pos=await getCurrentLocation();
+      currentPosition={lat:pos.coords.latitude,lon:pos.coords.longitude};
+      const label=await reverseGeocode(currentPosition.lat,currentPosition.lon);
+      useLocationBtn.textContent="Location ready";
+      useLocationBtn.dataset.ready="true";
+      statusEl.textContent="Current location is ready. Now enter your destination.";
+      initMap(currentPosition.lat,currentPosition.lon);
+      if(map) map.setView([currentPosition.lat,currentPosition.lon],15);
+      if(destinationInput.value.trim()==="") destinationInput.placeholder=`Current area: ${label.split(",")[0]}`;
+    }catch(err){ statusEl.textContent=err.message || "Could not get your current location."; }
+  });
+
+  async function loadStart(){
+    if(currentPosition) return currentPosition;
+    const pos=await getCurrentLocation();
+    currentPosition={lat:pos.coords.latitude,lon:pos.coords.longitude};
+    return currentPosition;
+  }
+
+  async function routeBetween(start,end,mode){
+    const profile=mode==="driving"?"driving":"foot";
+    const url=`https://router.project-osrm.org/route/v1/${profile}/${start.lon},${start.lat};${end.lon},${end.lat}?overview=full&geometries=geojson&steps=true&alternatives=true`;
+    const response=await fetch(url);
+    if(!response.ok) throw new Error("Routing service is unavailable right now.");
+    const data=await response.json();
+    if(data.code!=="Ok" || !data.routes?.length) throw new Error("No practical route was found to that destination.");
+    return data;
+  }
+
+  function uniqueById(items){const seen=new Set();return items.filter(x=>{const id=x.id||`${x.lat},${x.lon}`;if(seen.has(id))return false;seen.add(id);return true;});}
+
+  async function getSafePoints(lat,lon,radius=1800){
+    const query=`[out:json][timeout:12];(nwr[amenity~"police|hospital|pharmacy|fire_station|clinic|community_centre"](around:${radius},${lat},${lon});nwr[shop~"convenience|supermarket|mall"](around:${radius},${lat},${lon});nwr[amenity="bank"](around:${radius},${lat},${lon}););out center tags;`;
+    const response=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",headers:{"Content-Type":"text/plain"},body:query});
+    if(!response.ok) throw new Error("Safe-point service is unavailable.");
+    const data=await response.json();
+    return uniqueById((data.elements||[]).map(el=>({
+      id:el.id,tags:el.tags||{},lat:el.lat??el.center?.lat,lon:el.lon??el.center?.lon
+    })).filter(x=>Number.isFinite(x.lat)&&Number.isFinite(x.lon)).map(x=>({...x,name:x.tags.name||"Safe public point",type:getPointType(x.tags)})));
+  }
+
+  function getPointType(tags){
+    if(tags.amenity==="police") return "Police";
+    if(tags.amenity==="hospital") return "Hospital";
+    if(tags.amenity==="pharmacy") return "Pharmacy";
+    if(tags.amenity==="fire_station") return "Fire station";
+    if(tags.amenity==="clinic") return "Clinic";
+    if(tags.amenity==="community_centre") return "Community centre";
+    if(tags.shop) return "Public / staffed place";
+    return "Public place";
+  }
+
+  function distanceM(a,b){
+    const R=6371000, p1=a.lat*Math.PI/180,p2=b.lat*Math.PI/180,dp=(b.lat-a.lat)*Math.PI/180,dl=(b.lon-a.lon)*Math.PI/180;
+    const h=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+    return 2*R*Math.asin(Math.sqrt(h));
+  }
+
+  function fmtDistance(m){return m<1000?`${Math.round(m)} m`:`${(m/1000).toFixed(1)} km`;}
+  function fmtDuration(sec){const mins=Math.max(1,Math.round(sec/60));if(mins<60)return `${mins} min`;return `${Math.floor(mins/60)}h ${mins%60}m`;}
+
+  function scoreJourney(route, departure){
+    const hour=departure.getHours()+departure.getMinutes()/60;
+    const prefs=[...document.querySelectorAll(".journey-pref:checked")].map(x=>x.value);
+    let score=92;
+    if(hour>=19 && hour<21) score-=8;
+    if(hour>=21 && hour<23) score-=16;
+    if(hour>=23 || hour<5) score-=28;
+    if(route.distance>8000) score-=4;
+    if(route.duration/60>55) score-=5;
+    if(!prefs.includes("lighting")) score+=2;
+    if(!prefs.includes("crowd")) score+=2;
+    if(!prefs.includes("public")) score+=2;
+    if(!prefs.includes("familiar")) score+=1;
+    const safeBoost=Math.min(8, safePoints.length*1.5);
+    score+=safeBoost;
+    return Math.max(38,Math.min(97,Math.round(score)));
+  }
+
+  function riskLabel(score){return score>=80?"LOW RISK · RECOMMENDED":score>=65?"MEDIUM RISK · USE CAUTION":"HIGHER RISK · CONSIDER A SAFER WINDOW";}
+
+  function routeCautions(score, departure){
+    const hour=departure.getHours();
+    const caution=[];
+    if(hour>=21 || hour<5)caution.push("Late-night isolation can increase risk.");
+    if(!safePoints.length)caution.push("Few nearby public anchors were found.");
+    if(score<65)caution.push("Consider an earlier departure or a safer public stop.");
+    return caution;
+  }
+
+  function addSafeMarkers(points){
+    if(!map) return;
+    if(safeMarkerLayer){ safeMarkerLayer.clearLayers(); } else { safeMarkerLayer = L.layerGroup().addTo(map); }
+    points.slice(0,12).forEach(p=>{
+      L.circleMarker([p.lat,p.lon],{radius:5,color:"#f0b34f",weight:2,fillOpacity:.7}).addTo(safeMarkerLayer).bindPopup(`<strong>${escapeHtml(p.name)}</strong><br>${escapeHtml(p.type)}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lon}" target="_blank" rel="noopener">Directions</a>`);
+    });
+  }
+
+  function suggestedWindow(departure, score){
+    const start = new Date(departure.getTime() - 10*60*1000);
+    const end = new Date(departure.getTime() + (score >= 80 ? 10 : 5)*60*1000);
+    return `${start.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}–${end.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}`;
+  }
+
+  function updateFacts(score, route, cautions, departure){
+    const nextCheck=Math.max(7,Math.min(15,Math.round(route.duration/60/2)));
+    factsEl.innerHTML=`
+      <div><strong>Route</strong><span>${fmtDistance(route.distance)} · ${fmtDuration(route.duration)}</span></div>
+      <div><strong>Safe points</strong><span>${safePoints.length} nearby</span></div>
+      <div><strong>Departure window</strong><span>${suggestedWindow(departure,score)}</span></div>
+      <div><strong>Next check-in</strong><span>${nextCheck} min</span></div>`;
+  }
+
+  function updateGuidance(score, departure, route){
+    const hour=departure.getHours();
+    const suggested=hour>=22 || hour<5 ? "Try leaving earlier if possible; SakhiGo sees a late-night context here." : "Keep to the recommended route and stay close to public anchors.";
+    const pointText=safePoints[0]?` Nearest safe point: ${safePoints[0].name} (${fmtDistance(distanceM(currentPosition,safePoints[0]))}).`:" Consider a staffed public place as your fallback stop.";
+    guidanceEl.innerHTML=`<strong>Next action</strong><span>${riskLabel(score)}. ${suggested}${pointText}</span>`;
+  }
+
+  function formatRouteTitle(){
+    const raw=destinationInput.value.trim()||destination?.label||"Destination";
+    const short=raw.split(",")[0];
+    titleEl.textContent=`To ${short}`;
+  }
+
+  async function planJourney(){
+    try{
+      planBtn.disabled=true; planBtn.textContent="Analyzing route…"; statusEl.textContent="Getting your location, destination and route…";
+      if(!destination){
+        const q=destinationInput.value.trim();
+        if(q.length<3) throw new Error("Enter a destination first.");
+        const matches=await geocodeDestination(q);
+        if(!matches.length) throw new Error("I couldn't find that destination. Try a nearby landmark, campus, or full address.");
+        destination=matches[0]; destinationInput.value=destination.label;
+      }
+      const start=await loadStart();
+      routeData=await routeBetween(start,destination,travelMode.value);
+      const dep=new Date(departureTime.value);
+      if(Number.isNaN(dep.getTime())) throw new Error("Choose a departure time.");
+      safePoints=[];
+      try{safePoints=await getSafePoints(start.lat,start.lon,2200);}catch{safePoints=[];}
+      lastSafePoint=safePoints.sort((a,b)=>distanceM(start,a)-distanceM(start,b))[0]||null;
+      clearMapLayers();
+      initMap(start.lat,start.lon);
+      if(map){
+        routeLayer=L.geoJSON(routeData.routes[0].geometry,{style:{color:"#b49bff",weight:6,opacity:.9}}).addTo(map);
+        startMarker=L.circleMarker([start.lat,start.lon],{radius:7,color:"#78ffb5",weight:3,fillOpacity:1}).addTo(map).bindTooltip("You");
+        destinationMarker=L.circleMarker([destination.lat,destination.lon],{radius:7,color:"#ff6f8f",weight:3,fillOpacity:1}).addTo(map).bindTooltip("Destination");
+        addSafeMarkers(safePoints);
+        const bounds=routeLayer.getBounds(); if(bounds.isValid()) map.fitBounds(bounds,{padding:[28,28]});
+      }
+      const score=scoreJourney(routeData.routes[0],dep);
+      const cautions=routeCautions(score,dep);
+      scoreEl.textContent=score; titleEl.textContent=`To ${destination.label.split(",")[0]}`;
+      metaEl.textContent=`${destination.label} · ${dep.toLocaleString([], {dateStyle:"medium",timeStyle:"short"})}`;
+      updateFacts(score,routeData.routes[0],cautions,dep); updateGuidance(score,dep,routeData.routes[0]);
+      actionsEl.hidden=false;
+      directionsBtn.onclick=()=>window.open(`https://www.google.com/maps/dir/?api=1&origin=${currentPosition.lat},${currentPosition.lon}&destination=${destination.lat},${destination.lon}&travelmode=${travelMode.value}`,"_blank","noopener");
+      nearestSafeBtn.onclick=()=>{
+        if(lastSafePoint) window.open(`https://www.google.com/maps/dir/?api=1&origin=${currentPosition.lat},${currentPosition.lon}&destination=${lastSafePoint.lat},${lastSafePoint.lon}`,"_blank","noopener");
+        else statusEl.textContent="No mapped safe point was found nearby. Use the Safe Areas panel below.";
+      };
+      statusEl.textContent=`${riskLabel(score)} — route calculated. Departure window can be adjusted and recalculated.`;
+      planBtn.textContent="Recalculate safer route";
+    }catch(err){
+      statusEl.textContent=err.message||"Couldn't calculate the route.";
+      actionsEl.hidden=true;
+    }finally{planBtn.disabled=false;if(planBtn.textContent!=="Recalculate safer route")planBtn.textContent="Calculate safer route";}
+  }
+
+  window.SakhiGoJourney = {
+    getState(){ return { active: journeyStarted, destination, currentPosition, routeData, safePoints, nearestSafePoint: lastSafePoint }; },
+    getNearestSafePoint(){ return lastSafePoint; },
+    openNearestSafePoint(){
+      if(!lastSafePoint || !currentPosition) return false;
+      const url=`https://www.google.com/maps/dir/?api=1&origin=${currentPosition.lat},${currentPosition.lon}&destination=${lastSafePoint.lat},${lastSafePoint.lon}`;
+      window.open(url,"_blank","noopener");
+      guidanceEl.innerHTML=`<strong>Safety reroute</strong><span>Head toward ${escapeHtml(lastSafePoint.name)} — ${escapeHtml(lastSafePoint.type)}.</span>`;
+      statusEl.textContent="Nearest mapped safe point opened for directions.";
+      return true;
+    }
+  };
+
+  planBtn.addEventListener("click",planJourney);
+
+  startBtn.addEventListener("click",()=>{
+    if(!routeData){return;}
+    journeyStarted=true; checkinBar.hidden=false; checkinSeconds=420; startBtn.textContent="Journey active"; startBtn.disabled=true;
+    statusEl.textContent="Journey started. Keep SakhiGo open for check-ins; use SOS if something feels wrong.";
+    if(checkinInterval) clearInterval(checkinInterval);
+    checkinInterval=setInterval(()=>{
+      checkinSeconds--;
+      if(checkinSeconds<=0){checkinSeconds=420; statusEl.textContent="Check-in due — please confirm you're safe."; checkinBtn.textContent="I'm safe — check in";}
+      const m=Math.floor(checkinSeconds/60),s=checkinSeconds%60; checkinTimer.textContent=`Next check-in in ${m}m ${String(s).padStart(2,"0")}s`;
+    },1000);
+  });
+
+  checkinBtn.addEventListener("click",()=>{checkinSeconds=420;checkinBtn.textContent="Checked in ✓";statusEl.textContent="Check-in recorded on this device. Next reminder is in 7 minutes.";setTimeout(()=>checkinBtn.textContent="I'm safe",1800);});
+
+  window.addEventListener("beforeunload",()=>{if(checkinInterval) clearInterval(checkinInterval);});
+})();
+
       /* =========================================================
    SERVICE WORKER (offline app shell)
    ========================================================= */
