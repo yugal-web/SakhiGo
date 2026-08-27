@@ -35,7 +35,7 @@ Millions of women deal with the quiet anxiety of commuting alone — late from w
 - Progressive Web App (installable, offline-capable manifest + service worker)
 
 **Backend**
-- Java (Spring Boot) — REST APIs for auth, contacts, alerts, and reports
+- REST APIs for auth, contacts, alerts, and reports
 
 **Database**
 - MySQL / PostgreSQL — users, emergency contacts, safety reports
@@ -110,10 +110,10 @@ AI_API_KEY=your_key
 
 | Name | Role |
 |---|---|
-| Abhas Paul | Backend Development (Java/Spring Boot, DBMS) |
+| Abhas Paul | AI Integration |
 | Yugal Gupta | Frontend Development |
-| Ankit Singhal | UI/UX Design |
-| Devesh Sharma | AI Integration |
+| Ankit Singhal | Backend Development (Java/Spring Boot, DBMS) |
+| Devesh Sharma | UI/UX design |
 
 ---
 

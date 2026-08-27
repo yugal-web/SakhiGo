@@ -1,0 +1,9 @@
+com\sakhigo\live\LocationRequest.class
+com\sakhigo\live\LiveLocationController.class
+com\sakhigo\live\LiveSessionRepository.class
+com\sakhigo\live\SakhiGoApplication.class
+com\sakhigo\live\LiveSessionService.class
+com\sakhigo\live\CorsConfig.class
+com\sakhigo\live\CreateSessionRequest.class
+com\sakhigo\live\LiveSession.class
+com\sakhigo\live\LiveSessionResponse.class

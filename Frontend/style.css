@@ -1548,15 +1548,20 @@ section.block {
    ========================================================= */
 
 .how-wrap {
-  display: grid;
+  display: flex;
+  justify-content: center;
+}
 
-  grid-template-columns:
-    0.9fr
-    1.1fr;
+.how-wrap > div {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
 
-  gap: 60px;
-
-  align-items: start;
+.how-wrap .eyebrow,
+.how-wrap .section-title {
+  justify-content: center;
+  text-align: center;
 }
 
 .step {
