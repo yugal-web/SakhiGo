@@ -37,12 +37,8 @@ Millions of women deal with the quiet anxiety of commuting alone — late from w
 **Backend**
 - REST APIs for auth, contacts, alerts, and reports
 
-**Database**
-- MySQL / PostgreSQL — users, emergency contacts, safety reports
-
 **APIs & Integrations**
 - Google Maps API — live location & heatmap visualization
-- Twilio API — SMS/WhatsApp emergency alerts
 - AI Chatbot API (Gemini/OpenAI) — safety guidance assistant
 
 ---
@@ -65,7 +61,6 @@ Login/Signup → Home Dashboard → SOS Button
 ### Prerequisites
 - Java 17+
 - Maven
-- MySQL/PostgreSQL running locally
 - Node.js (if using a build step for frontend assets)
 
 ### Setup
@@ -99,8 +94,6 @@ DB_URL=your_database_url
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
 GOOGLE_MAPS_API_KEY=your_key
-TWILIO_ACCOUNT_SID=your_sid
-TWILIO_AUTH_TOKEN=your_token
 AI_API_KEY=your_key
 ```
 
